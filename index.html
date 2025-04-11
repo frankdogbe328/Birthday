@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 100%;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: #e2e8f0;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+        
+        .countdown {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            font-size: 8rem;
+            font-weight: 700;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        
+        .surprise-content {
+            display: none;
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            z-index: 5;
+        }
+        
+        header {
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            padding-bottom: 6rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            letter-spacing: -0.03em;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .header-text {
+            font-weight: 300;
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+        
+        .photo-section {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 0;
+            z-index: 2;
+            margin-top: -50px;
+        }
+        
+        .photo-frame {
+            width: 350px;
+            height: 350px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+            cursor: pointer;
+            animation: fadeIn 1s ease-out 0.6s both;
+        }
+        
+        .photo-frame:hover {
+            transform: rotateY(180deg);
+        }
+        
+        .photo-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            backface-visibility: hidden;
+        }
+        
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .photo-back {
+            transform: rotateY(180deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            font-family: 'Playfair Display', serif;
+            padding: 30px;
+            text-align: center;
+            color: white;
+            font-size: 1.5rem;
+            line-height: 1.5;
+        }
+        
+        .message-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            text-align: left;
+        }
+        
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #f8fafc;
+            text-align: center;
+            position: relative;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            margin: 1rem auto 0;
+        }
+        
+        .message {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            color: #cbd5e1;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 1s ease-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .message:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .signature {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #f8fafc;
+            margin-top: 1.5rem;
+        }
+        
+        .memories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 3rem;
+            perspective: 1000px;
+        }
+        
+        .memory {
+            position: relative;
+            height: 280px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transform: translateZ(0);
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);
+            animation: fadeIn 1s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .memory:nth-child(1) {
+            animation-delay: 0.8s;
+        }
+        
+        .memory:nth-child(2) {
+            animation-delay: 1s;
+        }
+        
+        .memory:nth-child(3) {
+            animation-delay: 1.2s;
+        }
+        
+        .memory::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.8) 0%, rgba(15, 23, 42, 0) 40%);
+            z-index: 1;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .memory img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .memory:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .memory:hover img {
+            transform: scale(1.1);
+        }
+        
+        .memory:hover::before {
+            opacity: 0.4;
+        }
+        
+        .fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+        }
+        
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .music-control:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .balloon {
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out;
+            opacity: 0.7;
+        }
+        
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(3deg); }
+            50% { transform: translateY(-120px) rotate(-3deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .surprise-content {
+            animation-fill-mode: both;
+        }
+        
+        .card-footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 100%);
+            margin-top: 4rem;
+            padding-top: 8rem;
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .footer-text {
+            font-size: 2rem;
+            font-family: 'Playfair Display', serif;
+            color: white;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            
+            .photo-frame {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .memories {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .memory {
+                height: 200px;
+            }
+            
+            .header-text {
+                font-size: 1rem;
+            }
+            
+            .message {
+                font-size: 1rem;
+            }
+            
+            .photo-back {
+                font-size: 1.2rem;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Stars background -->
+        <div class="stars" id="stars"></div>
+        
+        <!-- Countdown screen -->
+        <div class="countdown" id="countdown">5</div>
+        
+        <!-- Main surprise content -->
+        <div class="surprise-content" id="surprise-content">
+            <header>
+                <h1>Happy Birthday!</h1>
+                <p class="header-text">Today is all about celebrating the amazing person you are</p>
+            </header>
+            
+            <div class="photo-section">
+                <div class="photo-frame">
+                    <div class="photo-container">
+                        <img id="miss-photo" src="miss.jpg" alt="Birthday Photo">
+                    </div>
+                    <div class="photo-container photo-back">
+                        <p>Here's to another year of laughter, joy, and making beautiful memories together!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="message-section">
+                <h2><i>A Special Message For You</i></h2>
+                <div class="message">
+                    <p>Dear <span id="person-name">Miss Amy Enobore</span>,</p>
+                    <br>
+                    <p>Today is a special day - it's your birthday!</p>
+                    <p>On this wonderful occasion, I want to take a moment to celebrate you and all the joy you bring into this world. Your kindness, your humor, your strength - all the qualities that make you uniquely you - deserve to be celebrated today and every day.</p>
+                    <br>
+                    <p>I'm so grateful for all the memories we've shared, and looking forward to creating many more with you in the years to come.</p>
+                    <br>
+                    <p>Wishing you the happiest of birthdays and a year filled with everything you hope for!</p>
+                    <br>
+                    <audio controls>
+                        <source src="audio1.opus" type="audio/mpeg">
+                        
+                        Your browser does not support the audio element.
+                    </audio>
+                    <br/>
+                    <p>With love,</p>
+                    <p class="signature"><i><span id="sender-name">From: Dora Boso, 
+                        Frank Kojo Dogbe, 
+                        Amy Akusika Dogbe, and Anthony Nutifafa Dogbe</span></i></p>
+                    <span class="signature"><p>And the entire <span id="family-name">Dogbe Family</span></p>
+                    </span></p>
+                    
+                    
+              
+                </div>
+                
+                <h2><i>A Solid Servant Of God</i></h2>
+                <div class="memories">
+                    <div class="memory">
+                        <img src="Amy1.jpg" alt="Memory 1">
+                    </div>
+                    <div class="memory">
+                        <img src="Amy2.jpg" alt="Memory 2">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-footer">
+                <p class="footer-text">Make a wish!</p>
+                <p>May this year be your best one yet.</p>
+            </div>
+        </div>
+        
+        <!-- Fireworks canvas -->
+        <canvas class="fireworks" id="fireworks"></canvas>
+        
+        <!-- Music control button -->
+        <div class="music-control" id="music-control">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="10" y1="15" x2="10" y2="9"></line>
+                <line x1="14" y1="15" x2="14" y2="9"></line>
+            </svg>
+        </div>
+        
+        <!-- Background music (hidden) -->
+        <audio id="birthday-music">
+            <source src="song.mp3" type="audio/mpeg">
+        </audio>
+        
+        <!-- Second song (added) -->
+        <audio id="second-birthday-music">
+            <source src="song2.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create stars
+            const stars = document.getElementById('stars');
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = `${Math.random() * 3}px`;
+                star.style.height = star.style.width;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                stars.appendChild(star);
+            }
+            
+            // Create balloons
+            const colors = ['#3b82f6', '#8b5cf6', '#ec4899', '#10b981', '#f59e0b'];
+            for (let i = 0; i < 20; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+                balloon.style.left = `${Math.random() * 100}%`;
+                balloon.style.bottom = `${Math.random() * -100}px`;
+                balloon.style.animationDelay = `${Math.random() * 5}s`;
+                document.querySelector('.container').appendChild(balloon);
+            }
+            
+            // Music setup
+            const music = document.getElementById('birthday-music');
+            const secondMusic = document.getElementById('second-birthday-music');
+            const musicControl = document.getElementById('music-control');
+            let isPlaying = false;
+            let currentAudio = music; // Track current audio
+            
+            // Ensure first song doesn't loop
+            music.loop = false;
+            
+            // Play second song when first song ends
+            music.addEventListener('ended', function() {
+                currentAudio = secondMusic;
+                secondMusic.currentTime = 0; // Reset to start
+                secondMusic.loop = false; // Optional: set to true if you want looping
+                secondMusic.play()
+                    .then(() => {
+                        isPlaying = true;
+                        updateMusicButton();
+                    })
+                    .catch(error => console.log("Second song playback failed:", error));
+            });
+            
+            // Function to play music
+            function playMusic() {
+                if (!isPlaying) {
+                    currentAudio.play()
+                        .then(() => {
+                            isPlaying = true;
+                            updateMusicButton();
+                        })
+                        .catch(error => console.log("Playback failed:", error));
+                }
+            }
+            
+            // Function to toggle music playback
+            function toggleMusic() {
+                if (isPlaying) {
+                    currentAudio.pause();
+                    isPlaying = false;
+                } else {
+                    currentAudio.play()
+                        .then(() => {
+                            isPlaying = true;
+                        })
+                        .catch(error => console.log("Playback prevented:", error));
+                }
+                updateMusicButton();
+            }
+            
+            // Update music control button
+            function updateMusicButton() {
+                musicControl.innerHTML = isPlaying
+                    ? '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="10" y1="15" x2="10" y2="9"></line><line x1="14" y1="15" x2="14" y2="9"></line></svg>'
+                    : '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>';
+            }
+            
+            // Add click event listener to music control button
+            musicControl.addEventListener('click', toggleMusic);
+            
+            // Countdown function
+            const countdown = document.getElementById('countdown');
+            const surpriseContent = document.getElementById('surprise-content');
+            let count = 5;
+            
+            const timer = setInterval(() => {
+                count--;
+                countdown.textContent = count;
+                
+                if (count <= 0) {
+                    clearInterval(timer);
+                    countdown.style.display = 'none';
+                    surpriseContent.style.display = 'block';
+                    surpriseContent.style.animation = 'fadeIn 2s forwards';
+                    startFireworks();
+                    
+                    // Start music automatically after countdown
+                    playMusic();
+                }
+            }, 1000);
+            
+            // Simulate user interaction to enable autoplay (workaround)
+            function simulateInteraction() {
+                const event = new Event('click');
+                document.dispatchEvent(event);
+            }
+            
+            // Trigger simulated interaction right after DOM loads to allow autoplay
+            setTimeout(simulateInteraction, 100); // Small delay to ensure DOM is ready
+            
+            // Fireworks
+            function startFireworks() {
+                const canvas = document.getElementById('fireworks');
+                const ctx = canvas.getContext('2d');
+                
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                
+                window.addEventListener('resize', () => {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                });
+                
+                class Particle {
+                    constructor(x, y, color) {
+                        this.x = x;
+                        this.y = y;
+                        this.color = color;
+                        this.velocity = {
+                            x: (Math.random() - 0.5) * 8,
+                            y: (Math.random() - 0.5) * 8
+                        };
+                        this.alpha = 1;
+                        this.friction = 0.95;
+                        this.gravity = 0.2;
+                    }
+                    
+                    draw() {
+                        ctx.save();
+                        ctx.globalAlpha = this.alpha;
+                        ctx.fillStyle = this.color;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
+                    }
+                    
+                    update() {
+                        this.velocity.x *= this.friction;
+                        this.velocity.y *= this.friction;
+                        this.velocity.y += this.gravity;
+                        this.x += this.velocity.x;
+                        this.y += this.velocity.y;
+                        this.alpha -= 0.01;
+                    }
+                }
+                
+                class Firework {
+                    constructor() {
+                        this.reset();
+                    }
+                    
+                    reset() {
+                        this.x = Math.random() * canvas.width;
+                        this.y = canvas.height;
+                        this.targetY = Math.random() * canvas.height / 2;
+                        this.speed = Math.random() * 3 + 3;
+                        this.particles = [];
+                        this.hue = Math.floor(Math.random() * 360);
+                        this.exploded = false;
+                    }
+                    
+                    draw() {
+                        if (!this.exploded) {
+                            ctx.fillStyle = `hsl(${this.hue}, 100%, 50%)`;
+                            ctx.beginPath();
+                            ctx.arc(this.x, this.y, 4, 0, Math.PI * 2);
+                            ctx.fill();
+                        }
+                        
+                        for (let i = 0; i < this.particles.length; i++) {
+                            this.particles[i].draw();
+                        }
+                    }
+                    
+                    update() {
+                        if (!this.exploded) {
+                            this.y -= this.speed;
+                            if (this.y <= this.targetY) {
+                                this.explode();
+                            }
+                        }
+                        
+                        for (let i = this.particles.length - 1; i >= 0; i--) {
+                            this.particles[i].update();
+                            if (this.particles[i].alpha <= 0) {
+                                this.particles.splice(i, 1);
+                            }
+                        }
+                        
+                        if (this.exploded && this.particles.length === 0) {
+                            this.reset();
+                        }
+                    }
+                    
+                    explode() {
+                        this.exploded = true;
+                        for (let i = 0; i < 150; i++) {
+                            const color = `hsl(${this.hue}, 100%, 50%)`;
+                            this.particles.push(new Particle(this.x, this.y, color));
+                        }
+                    }
+                }
+                
+                const fireworks = [];
+                for (let i = 0; i < 5; i++) {
+                    fireworks.push(new Firework());
+                }
+                
+                function animate() {
+                    ctx.fillStyle = 'rgba(15, 23, 42, 0.2)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    for (let i = 0; i < fireworks.length; i++) {
+                        fireworks[i].draw();
+                        fireworks[i].update();
+                    }
+                    requestAnimationFrame(animate);
+                }
+                
+                animate();
+            }
+        });
+    </script>
+</body>
+</html>

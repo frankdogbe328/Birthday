@@ -1,0 +1,294 @@
+<!-- filepath: birthday-project/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Stars background -->
+        <div class="stars" id="stars"></div>
+        
+        <!-- Countdown screen -->
+        <div class="countdown" id="countdown">5</div>
+        
+        <!-- Main surprise content -->
+        <div class="surprise-content" id="surprise-content">
+            <header>
+                <h1>Happy Birthday!</h1>
+                <p class="header-text">Today is all about celebrating the amazing person you are</p>
+            </header>
+            
+            <div class="photo-section">
+                <div class="photo-frame">
+                    <div class="photo-container">
+                        <img id="miss-photo" src="images/Amy1.jpg" alt="Birthday Photo">
+                    </div>
+                    <div class="photo-container photo-back">
+                        <p>Here's to another year of laughter, joy, and making beautiful memories together!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="message-section">
+                <h2><i>A Special Message For You</i></h2>
+                <div class="message">
+                    <p>Dear <span id="person-name">Miss Amy Enobore</span>,</p>
+                    <br>
+                    <p>Today is a special day - it's your birthday!</p>
+                    <p>On this wonderful occasion, I want to take a moment to celebrate you and all the joy you bring into this world. Your kindness, your humor, your strength - all the qualities that make you uniquely you - deserve to be celebrated today and every day.</p>
+                    <br>
+                    <p>I'm so grateful for all the memories we've shared, and looking forward to creating many more with you in the years to come.</p>
+                    <br>
+                    <p>Wishing you the happiest of birthdays and a year filled with everything you hope for!</p>
+                    <br>
+                    <audio controls>
+                        <source src="audio/audio1.opus" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <br/>
+                    <p>With love,</p>
+                    <p class="signature"><i><span id="sender-name">From: Dora Boso, 
+                        Frank Kojo Dogbe, 
+                        Amy Akusika Dogbe, and Anthony Nutifafa Dogbe</span></i></p>
+                    <span class="signature"><p>And the entire <span id="family-name">Dogbe Family</span></p>
+                    </span></p>
+                </div>
+                
+                <h2><i>A Solid Servant Of God</i></h2>
+                <div class="memories">
+                    <div class="memory">
+                        <img src="images/Amy1.jpg" alt="Memory 1">
+                    </div>
+                    <div class="memory">
+                        <img src="images/Amy2.jpg" alt="Memory 2">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-footer">
+                <p class="footer-text">Make a wish!</p>
+                <p>May this year be your best one yet.</p>
+            </div>
+        </div>
+        
+        <!-- Fireworks canvas -->
+        <canvas class="fireworks" id="fireworks"></canvas>
+        
+        <!-- Music control button -->
+        <div class="music-control" id="music-control">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="10" y1="15" x2="10" y2="9"></line>
+                <line x1="14" y1="15" x2="14" y2="9"></line>
+            </svg>
+        </div>
+        
+        <!-- Background music (hidden) -->
+        <audio id="birthday-music">
+            <source src="audio/song.mp3" type="audio/mpeg">
+        </audio>
+        
+        <!-- Second song (added) -->
+        <audio id="second-birthday-music">
+            <source src="audio/song2.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create stars
+            const stars = document.getElementById('stars');
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = `${Math.random() * 3}px`;
+                star.style.height = star.style.width;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                stars.appendChild(star);
+            }
+            
+            // Create balloons
+            const colors = ['#3b82f6', '#8b5cf6', '#ec4899', '#10b981', '#f59e0b'];
+            for (let i = 0; i < 20; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+                balloon.style.left = `${Math.random() * 100}%`;
+                balloon.style.bottom = `${Math.random() * -100}px`;
+                balloon.style.animationDelay = `${Math.random() * 5}s`;
+                document.querySelector('.container').appendChild(balloon);
+            }
+            
+            // Music setup
+            const music = document.getElementById('birthday-music');
+            const secondMusic = document.getElementById('second-birthday-music');
+            const musicControl = document.getElementById('music-control');
+            let isPlaying = false;
+            let currentAudio = music; // Track current audio
+            
+            // Ensure first song doesn't loop
+            music.loop = false;
+            
+            // Play second song when first song ends
+            music.addEventListener('ended', function() {
+                currentAudio = secondMusic;
+                secondMusic.currentTime = 0; // Reset to start
+                secondMusic.loop = false; // Optional: set to true if you want looping
+                secondMusic.play()
+                    .then(() => {
+                        isPlaying = true;
+                        updateMusicButton();
+                    })
+                    .catch(error => console.log("Second song playback failed:", error));
+            });
+            
+            // Function to play music
+            function playMusic() {
+                if (!isPlaying) {
+                    currentAudio.play()
+                        .then(() => {
+                            isPlaying = true;
+                            updateMusicButton();
+                        })
+                        .catch(error => console.log("Playback failed:", error));
+                }
+            }
+            
+            // Function to toggle music playback
+            function toggleMusic() {
+                if (isPlaying) {
+                    currentAudio.pause();
+                    isPlaying = false;
+                } else {
+                    currentAudio.play()
+                        .then(() => {
+                            isPlaying = true;
+                        })
+                        .catch(error => console.log("Playback prevented:", error));
+                }
+                updateMusicButton();
+            }
+            
+            // Update music control button
+            function updateMusicButton() {
+                musicControl.innerHTML = isPlaying
+                    ? '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="10" y1="15" x2="10" y2="9"></line><line x1="14" y1="15" x2="14" y2="9"></line></svg>'
+                    : '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>';
+            }
+            
+            // Add click event listener to music control button
+            musicControl.addEventListener('click', toggleMusic);
+            
+            // Countdown function
+            const countdown = document.getElementById('countdown');
+            const surpriseContent = document.getElementById('surprise-content');
+            let count = 5;
+            
+            const timer = setInterval(() => {
+                count--;
+                countdown.textContent = count;
+                
+                if (count <= 0) {
+                    clearInterval(timer);
+                    countdown.style.display = 'none';
+                    surpriseContent.style.display = 'block';
+                    surpriseContent.style.animation = 'fadeIn 2s forwards';
+                    startFireworks();
+                    
+                    // Start music automatically after countdown
+                    playMusic();
+                }
+            }, 1000);
+            
+            // Simulate user interaction to enable autoplay (workaround)
+            function simulateInteraction() {
+                const event = new Event('click');
+                document.dispatchEvent(event);
+            }
+            
+            // Trigger simulated interaction right after DOM loads to allow autoplay
+            setTimeout(simulateInteraction, 100); // Small delay to ensure DOM is ready
+            
+            // Fireworks
+            function startFireworks() {
+                const canvas = document.getElementById('fireworks');
+                const ctx = canvas.getContext('2d');
+                
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                
+                window.addEventListener('resize', () => {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                });
+                
+                class Particle {
+                    constructor(x, y, color) {
+                        this.x = x;
+                        this.y = y;
+                        this.color = color;
+                        this.velocity = {
+                            x: (Math.random() - 0.5) * 8,
+                            y: (Math.random() - 0.5) * 8
+                        };
+                        this.alpha = 1;
+                        this.friction = 0.95;
+                        this.gravity = 0.2;
+                    }
+                    
+                    draw() {
+                        ctx.save();
+                        ctx.globalAlpha = this.alpha;
+                        ctx.fillStyle = this.color;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
+                    }
+                    
+                    update() {
+                        this.velocity.x *= this.friction;
+                        this.velocity.y *= this.friction;
+                        this.velocity.y += this.gravity;
+                        this.x += this.velocity.x;
+                        this.y += this.velocity.y;
+                        this.alpha -= 0.01;
+                    }
+                }
+                
+                class Firework {
+                    constructor() {
+                        this.reset();
+                    }
+                    
+                    reset() {
+                        this.x = Math.random() * canvas.width;
+                        this.y = canvas.height;
+                        this.targetY = Math.random() * canvas.height / 2;
+                        this.speed = Math.random() * 3 + 3;
+                        this.particles = [];
+                        this.hue = Math.floor(Math.random() * 360);
+                        this.exploded = false;
+                    }
+                    
+                    draw() {
+                        if (!this.exploded) {…}
+                    }
+                    
+                    update() {…}
+                }
+                
+                const fireworks = [];
+                for (let i = 0; i < 5; i++) {…}
+                
+            }
+        });
+    </script>
+</body>
+</html>
